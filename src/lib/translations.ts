@@ -1,3 +1,4 @@
+
 import type { Language, TranslatedString } from '@/types';
 
 export type TranslationKey =
@@ -28,7 +29,15 @@ export type TranslationKey =
   | 'northAmerica'
   | 'europe'
   | 'asia'
-  | 'loadingData';
+  | 'loadingData'
+  | 'regionDetailsModalTitle'
+  | 'regionDetailsModalDescription'
+  | 'partNumberColumn'
+  | 'descriptionColumn'
+  | 'failureDateColumn'
+  | 'serviceCostColumn'
+  | 'warrantyClaimsColumn'
+  | 'closeButton';
 
 export const translations: Record<TranslationKey, TranslatedString> = {
   dashboardTitle: { en: 'LinguaTruck Dashboard', de: 'LinguaTruck Armaturenbrett', jp: 'LinguaTruck ダッシュボード' },
@@ -59,8 +68,26 @@ export const translations: Record<TranslationKey, TranslatedString> = {
   europe: { en: 'Europe', de: 'Europa', jp: 'ヨーロッパ' },
   asia: { en: 'Asia', de: 'Asien', jp: 'アジア' },
   loadingData: { en: 'Loading data...', de: 'Daten werden geladen...', jp: 'データを読み込んでいます...' },
+  regionDetailsModalTitle: { en: 'Details for {regionName}', de: 'Details für {regionName}', jp: '{regionName} の詳細' },
+  regionDetailsModalDescription: { en: 'Showing {count} parts for region: {regionName}', de: 'Zeige {count} Teile für Region: {regionName}', jp: '地域「{regionName}」の部品 ({count}件) を表示しています' },
+  partNumberColumn: { en: 'Part No.', de: 'Teile-Nr.', jp: '部品番号' },
+  descriptionColumn: { en: 'Description', de: 'Beschreibung', jp: '説明' },
+  failureDateColumn: { en: 'Failure Date', de: 'Ausfalldatum', jp: '故障日' },
+  serviceCostColumn: { en: 'Service Cost', de: 'Servicekosten', jp: 'サービス費用' },
+  warrantyClaimsColumn: { en: 'Claims', de: 'Ansprüche', jp: '請求件数' },
+  closeButton: { en: 'Close', de: 'Schließen', jp: '閉じる' },
 };
 
-export const translate = (key: TranslationKey, lang: Language): string => {
-  return translations[key]?.[lang] || key;
+export const translate = (
+  key: TranslationKey,
+  lang: Language,
+  params?: Record<string, string | number>
+): string => {
+  let translation = translations[key]?.[lang] || key;
+  if (params) {
+    Object.keys(params).forEach((paramKey) => {
+      translation = translation.replace(`{${paramKey}}`, String(params[paramKey]));
+    });
+  }
+  return translation;
 };

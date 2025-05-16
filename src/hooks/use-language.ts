@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useContext } from 'react';
@@ -11,7 +12,7 @@ export const useLanguage = () => {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
 
-  const t = (key: TranslationKey) => translate(key, context.language);
+  const t = (key: TranslationKey, params?: Record<string, string | number>) => translate(key, context.language, params);
 
   return {
     language: context.language,
